@@ -23,3 +23,7 @@ cdk.out/
 
 # Jetbrains IDE
 .idea
+
+# Test Coverage
+.coverage
+coverage.xml

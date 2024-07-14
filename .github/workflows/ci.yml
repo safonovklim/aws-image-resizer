@@ -28,7 +28,7 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Run tests with coverage
-        run: pytest --cov
+        run: pytest --cov --cov-report xml:coverage.xml .
 
       - name: Publish coverage report
         uses: actions/upload-artifact@v2
