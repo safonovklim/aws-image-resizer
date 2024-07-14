@@ -19,11 +19,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Get CI Workflow Run ID
+        run: echo "CI_RUN_ID=${{ github.event.workflow_run.id }}" >> $GITHUB_ENV
+
       - name: Download CDK output
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: cdk-output
           path: cdk.out
+          github-token: ${{ secrets.GH_PAT }} # token with actions:read permissions on target repo
+          repository: "${GITHUB_ACTION_REPOSITORY}"
+          run-id: "${{ env.CI_RUN_ID }}"
 
       - name: Install AWS CDK
         run: npm install -g aws-cdk
