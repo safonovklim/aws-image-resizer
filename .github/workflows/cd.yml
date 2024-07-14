@@ -1,5 +1,9 @@
 name: CD
 
+permissions:
+  id-token: write # required to use OIDC authentication
+  contents: read
+
 on:
   workflow_run:
     workflows: ["CI"]
@@ -7,7 +11,7 @@ on:
       - completed
 
 jobs:
-  deploy:
+  cd:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
