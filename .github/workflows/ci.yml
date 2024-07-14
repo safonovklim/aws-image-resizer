@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r lambda/requirements.txt
+
+      - name: Run tests
+        run: pytest --cov=.
+
+      - name: Publish coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage.xml
+
+      - name: Install AWS CDK
+        run: npm install -g aws-cdk
+
+      - name: AWS Assume deployer role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: "arn:aws:iam::764157184418:role/terraform-aws-klim-personal-github-manual"
+          role-duration-seconds: 3600
+          role-skip-session-tagging: true
+          aws-region: "us-east-1"
+
+      - name: CDK synth
+        run: cdk synth
+
+      - name: Upload CDK output
+        uses: actions/upload-artifact@v2
+        with:
+          name: cdk-output
+          path: cdk.out
