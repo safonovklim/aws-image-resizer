@@ -3,6 +3,11 @@
 This application automatically resizes every single image uploaded to the source S3 bucket.
 New files will be uploaded to the same file name in the destination S3 bucket.
 
+## See also
+
+- [LICENSE.md](./LICENSE.md)
+- [DevOps Long-term Strategy](./STRATEGY.md) 
+
 ## Components
 
 - "Source" S3 bucket
