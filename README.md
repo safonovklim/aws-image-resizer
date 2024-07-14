@@ -1,6 +1,23 @@
 # AWS Image AutoResizer (Python)
 
-## 0. Prerequisites
+This application automatically resizes every single image uploaded to the source S3 bucket.
+New files will be uploaded to the same file name in the destination S3 bucket.
+
+## Components
+
+- "Source" S3 bucket
+- "Destination" S3 bucket
+- SQS queue 
+  - subscribed to S3 notification - OBJECT_CREATED
+  - _Note: it does not include Dead-Letter Queue (DLQ), but it must be present in production-ready application to catch unexpected errors or unprocessed files. Operators must be notified if DLQ is NOT empty._
+- Python Lambda Function (subscribed to SQS queue)
+  - IAM (execution) Role for Python function that allows
+    - reading from Source S3 bucket
+    - writing to Destination S3 bucket
+    - send/receive messages from SQS queue
+    - publish Cloudwatch logs 
+
+## Prerequisites
 
 Before you run deploy/use this application, you must ensure the following:
 

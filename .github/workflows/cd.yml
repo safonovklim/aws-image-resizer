@@ -50,5 +50,5 @@ jobs:
             ls -la cdk.out
 
       - name: CDK deploy
-        run: cdk deploy -all --require-approval never
+        run: cdk deploy --all --require-approval never
 

@@ -7,9 +7,6 @@ from PIL import Image
 s3_client = boto3.client('s3')
 
 def handler(event, context):
-    print("Lambda Invoked")
-    print(event)
-
     resize_width = int(os.getenv("RESIZE_WIDTH", "200"))
     resize_height = int(os.getenv("RESIZE_HEIGHT", "200"))
     destination_bucket_arn = os.getenv("DESTINATION_BUCKET_ARN")
