@@ -28,7 +28,7 @@ jobs:
           name: cdk-output
           path: cdk.out
           github-token: ${{ secrets.GH_PAT }} # token with actions:read permissions on target repo
-          repository: "${GITHUB_ACTION_REPOSITORY}"
+          repository: "${{ github.repository_owner }}/${{ github.event.repository.name }}"
           run-id: "${{ env.CI_RUN_ID }}"
 
       - name: Install AWS CDK
