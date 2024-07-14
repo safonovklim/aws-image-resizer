@@ -181,4 +181,4 @@ After application running in production for a while and you'd like to reduce cos
 - **Switch to ARM64 / Graviton** - savings up to 33% on compute
 - **Compute Savings plan** - purchase 1-year/3-year commitments. [Learn more here](https://aws.amazon.com/savingsplans/compute-pricing/)
 - **Private Pricing Agreements** (for enterprises) - custom agreement with AWS for long-term commitments in exchange of discounts (up to 30%)
-- Other - **Group Buying** - startups like [Pump.co](https://pump.co/) allow you to save a bit by joining existing workload account with shared paying/billing account (no security risks)
+- Other (not recommended) - **Group Buying** - companies like [Pump.co](https://pump.co/) allow you to save a bit by joining existing workload account with shared paying/billing account

@@ -42,13 +42,6 @@ jobs:
           role-skip-session-tagging: true
           aws-region: "us-east-1"
 
-      - name: Debug files
-        run: |
-            pwd
-            ls -la
-            cat cdk.json
-            ls -la cdk.out
-
       - name: CDK deploy
-        run: cdk deploy --all --require-approval never
+        run: cdk deploy --app ./cdk.out --all --require-approval never
 
