@@ -1,9 +1,10 @@
-from aws_cdk import Stack, CfnOutput
+from constructs import Construct
+from aws_cdk import Stack, CfnOutput, Duration
 import aws_cdk.aws_lambda as lambda_
 import aws_cdk.aws_lambda_event_sources as lambda_sources
 import aws_cdk.aws_iam as iam
 import aws_cdk.aws_sqs as sqs
-from constructs import Construct
+import app_config
 
 class LambdaStack(Stack):
 
@@ -33,12 +34,27 @@ class LambdaStack(Stack):
             )
         )
 
+        # 2. Import Pillow (image processing lib) as Lambda Layer)
+        # PS: For simplicity of this task/solution, I used public dependency, but
+        #     I highly recommend to pack and store dependencies yourself
+        #     to ensure the best security and compatibility
+        pillow_layer = lambda_.LayerVersion.from_layer_version_arn(self, "PillowLayer", layer_version_arn="arn:aws:lambda:us-east-1:770693421928:layer:Klayers-p312-Pillow:2")
+
         # 2. Create lambda function
+        # Pillow (image processing lib) attached as Lambda Layer
+        # Source: https://github.com/keithrozario/Klayers/tree/master/deployments/python3.12
         function = lambda_.Function(self, "ResizerFunction",
                                     runtime=lambda_.Runtime.PYTHON_3_12,
                                     handler="main.handler",
                                     code=lambda_.Code.from_asset("./lambda"),
-                                    role=execution_role)
+                                    role=execution_role,
+                                    timeout=Duration.seconds(15),
+                                    layers=[pillow_layer],
+                                    environment={
+                                        "DESTINATION_BUCKET_ARN": destination_bucket_arn,
+                                        "RESIZE_HEIGHT": str(app_config.resize_height),
+                                        "RESIZE_WIDTH": str(app_config.resize_width),
+                                    })
 
         # 3. Attach Lambda to SQS source
         source_queue = sqs.Queue.from_queue_arn(self, id="SourceQueue", queue_arn=source_queue_arn)
