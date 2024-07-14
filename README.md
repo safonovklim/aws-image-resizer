@@ -89,7 +89,7 @@ Name of the source bucket is `awsimageautoresizerstackbucketsstac-source71e471f1
 
 Replace variables and run the following;
 ```
-export BUCKET_NAME=<PUT_YOUR_BUCKET_NAME>
+export SOURCE_BUCKET_NAME=<PUT_YOUR_SOURCE_BUCKET_NAME>
 aws s3 cp <local-file-path> s3://$BUCKET_NAME/<object-key>
 ```
 
@@ -97,7 +97,24 @@ Example:
 
 ```
 > export BUCKET_NAME=awsimageautoresizerstackbucketsstac-source71e471f1-negcvfkmqdf9
-> aws s3 cp /Users/klim/Desktop/Ooh/LivePass/logo_wide.png s3://$BUCKET_NAME/logo_wide.png
+> aws s3 cp /Users/klim/Desktop/Ooh/LivePass/logo_wide.png s3://$SOURCE_BUCKET_NAME/logo_wide.png
 
-upload: ../../../Desktop/Ooh/LivePass/logo_wide.png to s3://awsimageautoresizerstackbucketsstac-source71e471f1-negcvfkmqdf9/logo_wide.png
+upload: ../../../Desktop/logo_wide.png to s3://awsimageautoresizerstackbucketsstac-source71e471f1-negcvfkmqdf9/logo_wide.png
+```
+
+### Step 2.3 - Download resized image from the destination bucket
+
+Replace variables and run the following;
+```
+export DESTINATION_BUCKET_NAME=<PUT_YOUR_DESTINATION_BUCKET_NAME>
+aws s3 cp s3://$BUCKET_NAME/<object-key> <local-file-path> 
+```
+
+
+Example: 
+```
+> export DESTINATION_BUCKET_NAME=awsimageautoresizerstackbucket-destination920a3c57-ewoyosmf6dmr
+> aws s3 cp s3://$DESTINATION_BUCKET_NAME/logo_wide5.png /Users/klim/Desktop/resized_logo_wide5.png
+
+download: s3://awsimageautoresizerstackbucket-destination920a3c57-ewoyosmf6dmr/logo_wide5.png to ../../../Desktop/resized_logo_wide5.png
 ```
