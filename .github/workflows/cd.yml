@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Get CI Workflow Run ID
         run: echo "CI_RUN_ID=${{ github.event.workflow_run.id }}" >> $GITHUB_ENV
@@ -41,6 +41,13 @@ jobs:
           role-duration-seconds: 3600
           role-skip-session-tagging: true
           aws-region: "us-east-1"
+
+      - name: Debug files
+        run: |
+            pwd
+            ls -la
+            cat cdk.json
+            ls -la cdk.out
 
       - name: CDK deploy
         run: cdk deploy -all --require-approval never
